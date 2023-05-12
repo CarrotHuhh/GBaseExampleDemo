@@ -28,12 +28,13 @@ public class SSLExample {
     public static Connection conn = null;
 
     public static void main(String[] args) throws SQLException {
-        prepareTable.prepare(URL);
         //配置keyStore和trustStore的路径
         System.setProperty("javax.net.ssl.keyStore", keyStorePath);
         System.setProperty("javax.net.ssl.keyStorePassword", keyStorePassword);
         System.setProperty("javax.net.ssl.trustStore", trustStorePath);
         System.setProperty("javax.net.ssl.trustStorePassword", trustStorePassword);
+        //用例运行前对测试用表是否存在进行检查
+        prepareTable.prepare(URL);
         //与数据库建立连接
         try {
             Class.forName(DRIVER);

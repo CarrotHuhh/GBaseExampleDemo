@@ -29,6 +29,7 @@ public class insertBatchExample {
     public static Integer insert_num = 1000000;
 
     public static void main(String[] args) throws SQLException {
+        //用例运行前对测试用表是否存在进行检查
         prepareTable.prepare(URL);
         //2.与数据库建立连接
         try {

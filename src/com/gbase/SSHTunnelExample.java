@@ -28,13 +28,15 @@ public class SSHTunnelExample {
     //批量插入表中的行数
 
     public static void main(String[] args) throws SQLException {
+        //用例运行前对测试用表是否存在进行检查
         prepareTable.prepare(URL);
+        Session session = null;
         //与数据库建立连接
         try {
             Class.forName(DRIVER);
             //创建session连接
             JSch jsch = new JSch();
-            Session session = jsch.getSession("gbase", "172.16.34.201", 22);
+            session = jsch.getSession("gbase", "172.16.34.201", 22);
             session.setPassword("Hu123456");
             session.setConfig("StrictHostKeyChecking", "no");
             session.connect();
@@ -61,6 +63,7 @@ public class SSHTunnelExample {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            session.disconnect();
             conn.close();
         }
     }

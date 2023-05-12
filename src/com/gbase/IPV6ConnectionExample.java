@@ -24,6 +24,7 @@ public class IPV6ConnectionExample {
     public static Connection conn = null;
 
     public static void main(String[] args) throws SQLException {
+        //用例运行前对测试用表是否存在进行检查
         prepareTable.prepare(URL);
         //与数据库建立连接
         try {
