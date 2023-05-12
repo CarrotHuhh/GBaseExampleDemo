@@ -1,6 +1,7 @@
 package com.gbase;
 
 import com.gbase.jdbc.StatementImpl;
+import com.gbase.util.prepareTable;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,6 +27,7 @@ public class LoadTaskInfoExample {
     public static Connection conn = null;
 
     public static void main(String[] args) throws SQLException {
+        prepareTable.prepare(URL);
         //与数据库建立连接
         try {
             Class.forName(DRIVER);

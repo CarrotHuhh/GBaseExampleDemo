@@ -4,7 +4,12 @@ import com.gbase.util.prepareTable;
 
 import java.sql.*;
 
-public class CharacterSetExample {
+/**
+ * JDBC支持指定VC与数据库连接，需要通过在url中配置参
+ * 数实现，对于配置了VC的集群，且用户没有默认VC的情况，必须在url中指定VC才能与集群连接
+ */
+
+public class VirtualClusterExample {
     final public static String DRIVER = "com.gbase.jdbc.Driver";
     /**
      * URL中可进行模式配置,可支持ipv4或ipv6地址
@@ -15,12 +20,10 @@ public class CharacterSetExample {
      * vcName=vc1:选择要操作的vc
      */
     public static String URL = "jdbc:gbase://172.16.34.201:5258/db1?" +
+            //选择要操作的虚拟集群
             "vcName=vc1" +
             "&user=gbase" +
-            "&password=Hu123456" +
-            "&useUnicode=true" +
-            "&characterEncoding=gbk" +
-            "&characterSetResults=gbk";
+            "&password=Hu123456";
     public static Connection conn = null;
 
     public static void main(String[] args) throws SQLException {
@@ -36,14 +39,19 @@ public class CharacterSetExample {
             e.printStackTrace();
             System.out.println("连接失败");
         }
-        //查询当前使用字符集
-        String sql = "show variables like '%character_set%'";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-        while (rs.next()) {
-            System.out.print(rs.getString(1) + ": ");
-            System.out.println(rs.getString(2));
+        //在连接建立后进行简单查询
+        String sql = "show tables";
+        try {
+            Statement streamStmt = conn.createStatement();
+            ResultSet rs = streamStmt.executeQuery(sql);
+            System.out.println("查询到以下表：");
+            while (rs.next()) {
+                System.out.println(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
         }
-        conn.close();
     }
 }

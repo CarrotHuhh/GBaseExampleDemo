@@ -4,7 +4,10 @@ import com.gbase.util.prepareTable;
 
 import java.sql.*;
 
-public class CharacterSetExample {
+/**
+ * 本类展示了通过IPV6地址连接集群的方式，JDBC支持使用ipv6与数据库连接，使用方式除了url设置有区别外，其他操作完全一样。
+ */
+public class IPV6ConnectionExample {
     final public static String DRIVER = "com.gbase.jdbc.Driver";
     /**
      * URL中可进行模式配置,可支持ipv4或ipv6地址
@@ -14,13 +17,10 @@ public class CharacterSetExample {
      * rewriteBatchedStatements=true：开启批量插入
      * vcName=vc1:选择要操作的vc
      */
-    public static String URL = "jdbc:gbase://172.16.34.201:5258/db1?" +
+    public static String URL = "jdbc:gbase://[fe80::cfc6:e2e5:f035:a93e%en0]:5258/db1?" +
             "vcName=vc1" +
             "&user=gbase" +
-            "&password=Hu123456" +
-            "&useUnicode=true" +
-            "&characterEncoding=gbk" +
-            "&characterSetResults=gbk";
+            "&password=Hu123456";
     public static Connection conn = null;
 
     public static void main(String[] args) throws SQLException {
@@ -36,14 +36,19 @@ public class CharacterSetExample {
             e.printStackTrace();
             System.out.println("连接失败");
         }
-        //查询当前使用字符集
-        String sql = "show variables like '%character_set%'";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
-        while (rs.next()) {
-            System.out.print(rs.getString(1) + ": ");
-            System.out.println(rs.getString(2));
+        //在连接建立后进行简单查询
+        String sql = "show tables";
+        try {
+            Statement streamStmt = conn.createStatement();
+            ResultSet rs = streamStmt.executeQuery(sql);
+            System.out.println("查询到以下表：");
+            while (rs.next()) {
+                System.out.println(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            conn.close();
         }
-        conn.close();
     }
 }

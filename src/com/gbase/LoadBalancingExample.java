@@ -1,6 +1,7 @@
 package com.gbase;
 
 import com.gbase.jdbc.ConnectionImpl;
+import com.gbase.util.prepareTable;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -34,6 +35,7 @@ public class LoadBalancingExample {
     public static Connection conn = null;
 
     public static void main(String[] args) throws SQLException {
+        prepareTable.prepare(URL);
         //与数据库建立连接
         try {
             Class.forName(DRIVER);

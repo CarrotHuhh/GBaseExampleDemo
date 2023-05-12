@@ -1,5 +1,7 @@
 package com.gbase;
 
+import com.gbase.util.prepareTable;
+
 import java.sql.*;
 
 /**
@@ -24,6 +26,7 @@ public class DriverLogExample {
     public static Connection conn = null;
 
     public static void main(String[] args) throws SQLException {
+        prepareTable.prepare(URL);
         //与数据库建立连接
         try {
             Class.forName(DRIVER);

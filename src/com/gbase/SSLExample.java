@@ -1,5 +1,7 @@
 package com.gbase;
 
+import com.gbase.util.prepareTable;
+
 import java.sql.*;
 
 public class SSLExample {
@@ -26,6 +28,7 @@ public class SSLExample {
     public static Connection conn = null;
 
     public static void main(String[] args) throws SQLException {
+        prepareTable.prepare(URL);
         //配置keyStore和trustStore的路径
         System.setProperty("javax.net.ssl.keyStore", keyStorePath);
         System.setProperty("javax.net.ssl.keyStorePassword", keyStorePassword);

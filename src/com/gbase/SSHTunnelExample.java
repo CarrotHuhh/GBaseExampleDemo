@@ -1,5 +1,6 @@
 package com.gbase;
 
+import com.gbase.util.prepareTable;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
@@ -27,6 +28,7 @@ public class SSHTunnelExample {
     //批量插入表中的行数
 
     public static void main(String[] args) throws SQLException {
+        prepareTable.prepare(URL);
         //与数据库建立连接
         try {
             Class.forName(DRIVER);

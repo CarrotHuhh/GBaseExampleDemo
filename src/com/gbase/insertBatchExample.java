@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+import com.gbase.util.prepareTable;
 /**
  * 本类展示了采用批量插入的数据插入方法，大幅提高插入效率
  */
@@ -29,6 +29,7 @@ public class insertBatchExample {
     public static Integer insert_num = 1000000;
 
     public static void main(String[] args) throws SQLException {
+        prepareTable.prepare(URL);
         //2.与数据库建立连接
         try {
             Class.forName(DRIVER);
