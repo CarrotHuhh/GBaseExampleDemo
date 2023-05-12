@@ -3,10 +3,6 @@ package com.gbase;
 import java.sql.*;
 
 public class CharacterSetExample {
-    final public static String trustStorePath = "/Users/huyiquan/Study/gbase/configs/ssl/truststore";
-    final public static String trustStorePassword = "Hu123456";
-    final public static String keyStorePath = "/Users/huyiquan/Study/gbase/configs/ssl/keystore";
-    final public static String keyStorePassword = "Hu123456";
     final public static String DRIVER = "com.gbase.jdbc.Driver";
     /**
      * URL中可进行模式配置,可支持ipv4或ipv6地址
@@ -21,11 +17,8 @@ public class CharacterSetExample {
             "&user=gbase" +
             "&password=Hu123456" +
             "&useUnicode=true" +
-            "&characterEncoding=utf8" +
-            "&characterSetResults=utf8";
-
-    public static String characterEncoding = "utf8";
-    public static String characterSetResults = "utf8";
+            "&characterEncoding=gbk" +
+            "&characterSetResults=gbk";
     public static Connection conn = null;
 
     public static void main(String[] args) throws SQLException {
@@ -40,5 +33,14 @@ public class CharacterSetExample {
             e.printStackTrace();
             System.out.println("连接失败");
         }
+        //查询当前使用字符集
+        String sql = "show variables like '%character_set%'";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(sql);
+        while (rs.next()) {
+            System.out.print(rs.getString(1) + ": ");
+            System.out.println(rs.getString(2));
+        }
+        conn.close();
     }
 }

@@ -31,7 +31,6 @@ public class SSLExample {
         System.setProperty("javax.net.ssl.keyStorePassword", keyStorePassword);
         System.setProperty("javax.net.ssl.trustStore", trustStorePath);
         System.setProperty("javax.net.ssl.trustStorePassword", trustStorePassword);
-
         //与数据库建立连接
         try {
             Class.forName(DRIVER);
@@ -43,7 +42,6 @@ public class SSLExample {
             e.printStackTrace();
             System.out.println("连接失败");
         }
-
         //在SSL连接建立后进行简单查询
         String sql = "show tables";
         System.out.println("查询到以下表：");

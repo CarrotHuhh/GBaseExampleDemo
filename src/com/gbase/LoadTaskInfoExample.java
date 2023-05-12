@@ -6,6 +6,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ *  JDBC支持用于获取加载任务ID号，加载数据跳过行数的功能。
+ */
 public class LoadTaskInfoExample {
     final public static String DRIVER = "com.gbase.jdbc.Driver";
     /**
@@ -34,11 +37,11 @@ public class LoadTaskInfoExample {
             e.printStackTrace();
             System.out.println("连接失败");
         }
-
-
+        //在86版本，是不支持本地文件加载的，必须是ftp，sftp，http,hadoop等数据源的形式。
         String loadSql = "load data infile 'file://root@172.16.34.201/tmp/1.txt' into table testtable fields terminated by ','";
         try {
             Connection conn = DriverManager.getConnection(URL);
+            //因为JDBC标准接口并不包含该方法定义，故用户在使用时需要将标准的Statement转化为com.gbase.jdbc.StatementImpl类型方可使用。
             StatementImpl stmt = (StatementImpl) conn.createStatement();
             stmt.executeUpdate(loadSql);
             long skippedLines = stmt.getSkippedLines();

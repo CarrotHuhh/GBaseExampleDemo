@@ -1,10 +1,11 @@
 package com.gbase;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
+/**
+ * 本类展示流式传输的使用方法，流式读取方式可以通过数据流的方式，逐条从集群获取数据，将数据获取到JDBC应用所在内存中，从而减小
+ * 大结果集对应用内存的影响。
+ */
 public class StreamReadExample {
     final public static String DRIVER = "com.gbase.jdbc.Driver";
     /**
@@ -18,16 +19,26 @@ public class StreamReadExample {
     public static String URL = "jdbc:gbase://172.16.34.201:5258/db1?" +
             "vcName=vc1" +
             "&user=gbase" +
-            "&password=Hu123456" +
-            //在URL在设置useSSL和requireSSL为true，开启SSL加密
-            "&useSSL=true" +
-            "&requireSSL=true";
+            "&password=Hu123456";
     public static Connection conn = null;
 
     public static void main(String[] args) throws SQLException {
+        //与数据库建立连接
+        try {
+            Class.forName(DRIVER);
+            conn = DriverManager.getConnection(URL);
+            if (conn != null) {
+                System.out.println("连接成功");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("连接失败");
+        }
+        //建立连接后进行流式读取
         String sql = "select * from testtable";
         System.out.println("流式读取开始：");
         try {
+            Class.forName(DRIVER);
             Statement streamStmt = conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
             //Integer.MIN_VALUE=-2147483648,该参数必须是固定值，
             //设置为Integer.MIN_VALUE时，JDBC将尝试使用最佳的流式读取行数

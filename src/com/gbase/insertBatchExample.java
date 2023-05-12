@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * 采用批量插入方法进行数据插入，大幅提高插入效率
+ * 本类展示了采用批量插入的数据插入方法，大幅提高插入效率
  */
 public class insertBatchExample {
     final public static String DRIVER = "com.gbase.jdbc.Driver";
@@ -22,14 +22,14 @@ public class insertBatchExample {
             "vcName=vc1" +
             "&user=gbase" +
             "&password=Hu123456" +
-            //在URL在设置rewriteBatchedStatements为true，开启SSL加密
+            //1.在URL在设置rewriteBatchedStatements为true，使批量插入生效
             "&rewriteBatchedStatements=true";
     public static Connection conn = null;
     //批量插入表中的行数
-    public static Integer insert_num = 10000;
+    public static Integer insert_num = 1000000;
 
     public static void main(String[] args) throws SQLException {
-        //与数据库建立连接
+        //2.与数据库建立连接
         try {
             Class.forName(DRIVER);
             conn = DriverManager.getConnection(URL);
@@ -40,8 +40,7 @@ public class insertBatchExample {
             e.printStackTrace();
             System.out.println("连接失败");
         }
-
-        //在SSL连接建立后进行批量插入
+        //3.在连接建立后进行批量插入
         String sql = "insert into testtable values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         // 计时开始
         Long beginTime = System.currentTimeMillis();
@@ -49,12 +48,17 @@ public class insertBatchExample {
         try {
             //进行预处理
             PreparedStatement stm = conn.prepareStatement(sql);
-            for (int j = 0; j < insert_num; j++) {
+            for (int j = 1; j <= insert_num; j++) {
                 for (int i = 1; i <= 50; i++) {
                     stm.setString(i, String.valueOf(j));
                 }
                 // 添加批量插入内容
                 stm.addBatch();
+                //每个批次的数量，与服务器性能及单位数据大小相关
+                if (j % 40000 == 0) {
+                    stm.executeBatch();
+                    stm.clearBatch();
+                }
             }
             // 执行批量插入
             stm.executeBatch();

@@ -2,6 +2,9 @@ package com.gbase;
 
 import java.sql.*;
 
+/**
+ * 本类展示驱动日志的使用方法，开启内部日志后，可以看到JDBC发送到集群的SQL语句，便于调试问题。
+ */
 public class DriverLogExample {
     final public static String DRIVER = "com.gbase.jdbc.Driver";
     /**
@@ -16,8 +19,10 @@ public class DriverLogExample {
             "vcName=vc1" +
             "&user=gbase" +
             "&password=Hu123456" +
+            //设置profileSql属性为1，开启驱动日志加载
             "&profileSql=true";
     public static Connection conn = null;
+
     public static void main(String[] args) throws SQLException {
         //与数据库建立连接
         try {
@@ -32,10 +37,10 @@ public class DriverLogExample {
         }
         //在连接建立后进行简单查询
         String sql = "show tables";
-        System.out.println("查询到以下表：");
         try {
             Statement streamStmt = conn.createStatement();
             ResultSet rs = streamStmt.executeQuery(sql);
+            System.out.println("查询到以下表：");
             while (rs.next()) {
                 System.out.println(rs.getString(1));
             }

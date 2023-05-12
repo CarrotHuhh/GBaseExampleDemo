@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * 本类展示了高可用负载均衡功能的开启，以及具体的负载均衡过程。
+ */
 public class LoadBalancingExample {
     final public static String DRIVER = "com.gbase.jdbc.Driver";
     /**
@@ -21,8 +24,12 @@ public class LoadBalancingExample {
             "vcName=vc1" +
             "&user=gbase" +
             "&password=Hu123456" +
+            //开启连接高可用
             "&failoverEnable=true" +
+            /*不同的gclusterId会创建不同的列表，用于区分被连接的集群，要求必须以a-z任意字符开头的可以包
+            含a-z、0-9所有字符长度为最大为20的字符串。*/
             "&gclusterId=gcl1" +
+            //设置服务器集群的IP地址
             "&hostList=172.16.34.202,172.16.34.203";
     public static Connection conn = null;
 
@@ -38,7 +45,7 @@ public class LoadBalancingExample {
             e.printStackTrace();
             System.out.println("连接失败");
         }
-
+        //输出负载均衡过程的连接地址
         System.out.println("输出每次连接的服务器ip地址：");
         for (int i = 1; i <= 6; i++) {
             try {
@@ -47,6 +54,7 @@ public class LoadBalancingExample {
                 Class<ConnectionImpl> clazz = ConnectionImpl.class;
                 Field host = clazz.getDeclaredField("host");
                 host.setAccessible(true);
+                //获取连接服务器的ip
                 Object serverIP = host.get(conn);
                 System.out.println("serverIP:" + serverIP);
                 conn.close();

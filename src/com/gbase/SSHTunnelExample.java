@@ -5,6 +5,10 @@ import com.jcraft.jsch.Session;
 
 import java.sql.*;
 
+/**
+ * 本类展示了SSH隧道连接的开启方法，SSH隧道连接，可以先从JDBC所在服务器与集群服务器间建立SSH隧道，然后通过该隧道实现从数据库服务器
+ * 的本地连接并登录集群。
+ */
 public class SSHTunnelExample {
     final public static String DRIVER = "com.gbase.jdbc.Driver";
     /**
@@ -18,12 +22,9 @@ public class SSHTunnelExample {
     public static String URL = "jdbc:gbase://172.16.34.201:5258/db1?" +
             "vcName=vc1" +
             "&user=gbase" +
-            "&password=Hu123456" +
-            //在URL在设置rewriteBatchedStatements为true，开启SSL加密
-            "&rewriteBatchedStatements=true";
+            "&password=Hu123456";
     public static Connection conn = null;
     //批量插入表中的行数
-    public static Integer insert_num = 10000;
 
     public static void main(String[] args) throws SQLException {
         //与数据库建立连接
@@ -45,6 +46,7 @@ public class SSHTunnelExample {
             e.printStackTrace();
             System.out.println("连接失败");
         }
+
         //在建立SSH隧道连接后进行简单查询
         String sql = "show tables";
         System.out.println("查询到以下表：");
