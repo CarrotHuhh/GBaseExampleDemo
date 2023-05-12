@@ -5,11 +5,15 @@ import com.gbase.util.prepareTable;
 import java.sql.*;
 
 public class SSLExample {
+    final public static String DRIVER = "com.gbase.jdbc.Driver";
+    /**
+     * 指定本机中trustStore和keyStore的路径及其对应密码
+     */
     final public static String trustStorePath = "/Users/huyiquan/Study/gbase/configs/ssl/truststore";
     final public static String trustStorePassword = "Hu123456";
     final public static String keyStorePath = "/Users/huyiquan/Study/gbase/configs/ssl/keystore";
     final public static String keyStorePassword = "Hu123456";
-    final public static String DRIVER = "com.gbase.jdbc.Driver";
+
     /**
      * URL中可进行模式配置,可支持ipv4或ipv6地址
      * user:数据库用户名，password:数据库用户密码

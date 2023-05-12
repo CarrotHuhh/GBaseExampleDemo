@@ -4,6 +4,10 @@ import com.gbase.util.prepareTable;
 
 import java.sql.*;
 
+/**
+ * JDBC支持对发送给集群的信息和对获取集群返回的信息指定编码，一般情况下某个数据流程中的编码应该是
+ * 统一的，才能保证编码的正常显示。在JDBC中指定编码只需要在url中配置参数即可实现。本样例展示类指定字符集的方式。
+ */
 public class CharacterSetExample {
     final public static String DRIVER = "com.gbase.jdbc.Driver";
     /**
