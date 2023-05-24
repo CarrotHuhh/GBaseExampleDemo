@@ -1,29 +1,26 @@
 # 项目工程结构
-```xml
+```
 .
 ├── GbaseDemo.iml
 ├── README.md
 ├── lib
 │   ├── gbase-connector-java-9.5.0.1-build1-bin.jar
-│   ├── hamcrest-core-1.3.jar
-│   ├── jsch-0.1.55.jar
-│   └── junit-4.12.jar
-├── out
-│   └── production
-│       └── GbaseDemo
-│           └── com
-│               └── gbase
-│                   ├── ConnectionConfig.class
-│                   ├── Mode.class
-│                   ├── Operations.class
-│                   └── OperationsTest.class
+│   └── jsch-0.1.55.jar
 └── src
     └── com
         └── gbase
-            ├── ConnectionConfig.java
-            ├── Mode.java
-            ├── Operations.java
-            └── OperationsTest.java
+            ├── CharacterSetExample.java
+            ├── DriverLogExample.java
+            ├── IPV6ConnectionExample.java
+            ├── LoadBalancingExample.java
+            ├── LoadTaskInfoExample.java
+            ├── SSHTunnelExample.java
+            ├── SSLExample.java
+            ├── StreamReadExample.java
+            ├── VirtualClusterExample.java
+            ├── insertBatchExample.java
+            └── util
+                └── prepareTable.java
 ```
 
 # 结构说明
